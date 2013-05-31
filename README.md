@@ -1,4 +1,4 @@
-tsCN TypeScript specifiction 中文翻译
+TypeScript specifiction 中文翻译
 ====
 
 TypeScript简介
