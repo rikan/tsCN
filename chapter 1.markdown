@@ -47,27 +47,33 @@ This optional type annotation on the parameter ‘s’ lets the TypeScript type 
 In the JavaScript output, all type annotations have been erased. In general, TypeScript erases all type information before emiting JavaScript.  
 在输出的JavaScript中,所有的类型注解都被擦除了.总的来说,TS在生成JavaScript代码前擦除所有的类型注解.
 
-1.1 Ambient Declarations
+1.1 Ambient Declarations 环境声明
 ---
 
-An ambient declaration introduces a variable into a TypeScript scope, but has zero impact on the emitted JavaScript program. Programmers can use ambient declarations to tell the TypeScript compiler that some other component will supply a variable. For example, by default the TypeScript compiler will print an error for uses of undefined variables. To add some of the common variables defined by browsers, a TypeScript programmer can use ambient declarations. The following example declares the ‘document’ object supplied by browsers. Because the declaration does not specify a type, the type ‘any’ is inferred. The type ‘any’ means that a tool can assume nothing about the shape or behavior of the document object. Some of the examples below will illustrate how programmers can use types to further characterize the expected behavior of an object.
+An ambient declaration introduces a variable into a TypeScript scope, but has zero impact on the emitted JavaScript program. Programmers can use ambient declarations to tell the TypeScript compiler that some other component will supply a variable. For example, by default the TypeScript compiler will print an error for uses of undefined variables. To add some of the common variables defined by browsers, a TypeScript programmer can use ambient declarations. The following example declares the ‘document’ object supplied by browsers. Because the declaration does not specify a type, the type ‘any’ is inferred. The type ‘any’ means that a tool can assume nothing about the shape or behavior of the document object. Some of the examples below will illustrate how programmers can use types to further characterize the expected behavior of an object.  
+一个环境声明会引入一个变量到一个TS的作用域中,但是对生成的JavaScript程序没有任何影响.开发者可以使用背景声明来告诉TS编译器一些其他的组件会支持这个变量.例如,TS编译器会默认的打印使用了undefined的变量错误信息.TS开发者可以使用背景声明来增加一些常见的浏览器定义的变量.接下来的例子声明了浏览器中的'document'对象.因为这个声明没有指定类型,TS会将它推断为'any'类型.'any'类型表示开发工具可以对这个document对象的样子或者行为什么都不进行假设.下面的例子会展示开发者如何能够使用类型来进一步把一个对象期望的行为进行特征化.
 
 	declare var document;
 	document.title = "Hello";  // Ok because document has been declared
 
-In the case of ‘document’, the TypeScript compiler automatically supplies a declaration, because TypeScript by default includes a file ‘lib.d.ts’ that provides interface declarations for the built-in JavaScript library as well as the Document Object Model.
+In the case of ‘document’, the TypeScript compiler automatically supplies a declaration, because TypeScript by default includes a file ‘lib.d.ts’ that provides interface declarations for the built-in JavaScript library as well as the Document Object Model.  
+就'document'而言,TS编译器自动支持这个声明,因为TS默认的包含了一个'lib.d.ts'文件,这个文件提供了内建JavaScript库和文档对象模型(DOM)的接口定义.
 
-The TypeScript compiler does not include by default an interface for jQuery, so to use jQuery, a programmer could supply a declaration such as:
+The TypeScript compiler does not include by default an interface for jQuery, so to use jQuery, a programmer could supply a declaration such as:  
+TS编译器没有默认包含JQuery的接口,所以如果使用JQuery,需要提供这样的声明:
 
 	declare var $;
 
-Section 1.3 provides a more extensive example of how a programmer can add type information for jQuery and other libraries.
+Section 1.3 provides a more extensive example of how a programmer can add type information for jQuery and other libraries.  
+1.3部分提供了更多如何添加JQuery和其他库类型信息的例子.
 
-1.2 Function Types
+1.2 Function Types 函数类型
 ---
-Function expressions are a powerful feature of JavaScript. They enable function definitions to create closures: functions that capture information from the lexical scope surrounding the function’s definition. Closures are currently JavaScript’s only way of enforcing data encapsulation. By capturing and using environment variables, a closure can retain information that cannot be accessed from outside the closure. JavaScript programmers often use closures to express event handlers and other asynchronous callbacks, in which another software component, such as the DOM, will call back into JavaScript through a handler function.
+Function expressions are a powerful feature of JavaScript. They enable function definitions to create closures: functions that capture information from the lexical scope surrounding the function’s definition. Closures are currently JavaScript’s only way of enforcing data encapsulation. By capturing and using environment variables, a closure can retain information that cannot be accessed from outside the closure. JavaScript programmers often use closures to express event handlers and other asynchronous callbacks, in which another software component, such as the DOM, will call back into JavaScript through a handler function.  
+函数表达式是JavaScript强大的功能.函数表达式可以使用函数的定义来创建闭包:闭包就是一种函数可以捕获来自它定义周围的词法作用域的信息.闭包是目前JavaScript唯一一种将数据强制封闭的方法.通过捕获和使用环境变量,一个闭包可以持有不能从闭包外面访问的信息.JavaScript开发者经常使用闭包来表述事件处理器和其他异步回调,在其他例如DOM组件中会通过事件处理函数回调到JavaScript中.
 
-TypeScript function types make it possible for programmers to express the expected signature of a function. A function signature is a sequence of parameter types plus a return type. The following example uses function types to express the callback signature requirements of an asynchronous voting mechanism.
+TypeScript function types make it possible for programmers to express the expected signature of a function. A function signature is a sequence of parameter types plus a return type. The following example uses function types to express the callback signature requirements of an asynchronous voting mechanism.  
+TS函数类型让开发者表达函数签名成为可能.函数签名就是一组参数类型加上一个返回类型.下面的例子使用函数类型来表述一个异步投票方法的回调函数签名的要求.
 
 	function vote(candidate: string, callback: (result: string) => any){  // ...  }
 
@@ -79,13 +85,16 @@ TypeScript function types make it possible for programmers to express the expect
 		}
 	);
 
-In this example, the second parameter to ‘vote’ has the function type
+In this example, the second parameter to ‘vote’ has the function type  
+在这个例子中,'vote'的第二个参数是这样的一个函数类型
 
 	(result: string) => any
 
-which means the second parameter is a function returning type ‘any’ that has a single parameter of type ‘string’ named ‘result’.
+which means the second parameter is a function returning type ‘any’ that has a single parameter of type ‘string’ named ‘result’.  
+这个类型表明第二个参数是一个有'any'类型返回值和一个'string'类型叫'result'的参数.
 
-Section 3.5.5 provides additional information about function types.
+Section 3.5.5 provides additional information about function types.  
+3.5.5部分提供了函数类型的更多信息.
 
 1.3 Object Types
 ---
